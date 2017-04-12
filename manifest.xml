@@ -185,4 +185,15 @@
         <instance>drm</instance>
       </interface>
     </hal>
+    <!-- IMS UCE Service -->
+    <hal format="hidl">
+        <name>com.qualcomm.qti.uceservice</name>
+        <transport>hwbinder</transport>
+        <impl level="generic"></impl>
+        <version>1.0</version>
+        <interface>
+            <name>IUCEService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
 </manifest>

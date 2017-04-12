@@ -3,7 +3,8 @@ r_dir_file(system_app, sysfs_msm_subsys)
 unix_socket_connect(system_app, cnd, cnd)
 
 get_prop(system_app, cnd_prop)
-allow system_app cne_service:service_manager add;
+add_service(system_app, cne_service)
+add_service(system_app, uce_service)
 
 userdebug_or_eng(`
   # TODO(b/36734870): Remove this once system_app no longer directly
