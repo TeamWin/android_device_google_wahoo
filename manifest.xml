@@ -93,7 +93,7 @@
     </hal>
     <hal format="hidl">
         <name>android.hardware.gnss</name>
-        <transport arch="32+64">passthrough</transport>
+        <transport>hwbinder</transport>
         <impl level="generic"></impl>
         <version>1.0</version>
         <interface>
@@ -232,6 +232,15 @@
         <version>1.0</version>
         <interface>
             <name>IDevice</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.sensors</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>ISensors</name>
             <instance>default</instance>
         </interface>
     </hal>

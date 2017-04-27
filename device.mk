@@ -221,8 +221,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # camera TNR controls
 PRODUCT_PROPERTY_OVERRIDES += \
-  persist.camera.tnr.video=1 \
-  persist.camera.tnr.preview=1
+  persist.camera.tnr.video=1
+
+# Enable full mode face detection by default
+PRODUCT_PROPERTY_OVERRIDES += \
+  persist.camera.facedetect=3
+
 
 # WLAN driver configuration files
 PRODUCT_COPY_FILES += \
@@ -285,7 +289,7 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
 
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service.device
+    android.hardware.usb@1.1-service.wahoo
 
 PRODUCT_PACKAGES += \
     libmm-omxcore \
@@ -307,14 +311,15 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     sensors.$(PRODUCT_HARDWARE) \
-    android.hardware.sensors@1.0-impl
+    android.hardware.sensors@1.0-impl \
+    android.hardware.sensors@1.0-service
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sensors/hals.conf:system/etc/sensors/hals.conf
 
 PRODUCT_PACKAGES += \
-    fs_config_dirs \
-    fs_config_files
+    fs_config_dirs_vendor \
+    fs_config_files_vendor
 
 # Context hub HAL
 PRODUCT_PACKAGES += \
