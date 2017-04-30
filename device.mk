@@ -235,6 +235,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi_concurrency_cfg.txt:system/etc/wifi/wifi_concurrency_cfg.txt \
     $(LOCAL_PATH)/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 
+PRODUCT_FULL_TREBLE_OVERRIDE := true
+
 PRODUCT_PACKAGES += \
     hwcomposer.msm8998 \
     android.hardware.graphics.composer@2.1-impl \
@@ -318,8 +320,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sensors/hals.conf:system/etc/sensors/hals.conf
 
 PRODUCT_PACKAGES += \
-    fs_config_dirs_vendor \
-    fs_config_files_vendor
+    fs_config_dirs \
+    fs_config_files
 
 # Context hub HAL
 PRODUCT_PACKAGES += \
