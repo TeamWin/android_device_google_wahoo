@@ -149,6 +149,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.hcef.xml:system/etc/permissions/android.hardware.nfc.hcef.xml \
     frameworks/native/data/etc/android.hardware.vr.headtracking-0.xml:system/etc/permissions/android.hardware.vr.headtracking.xml \
     frameworks/native/data/etc/android.hardware.vr.high_performance.xml:system/etc/permissions/android.hardware.vr.high_performance.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:system/etc/permissions/android.hardware.vulkan.level.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.power.sh:system/bin/init.power.sh \
@@ -235,6 +237,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi_concurrency_cfg.txt:system/etc/wifi/wifi_concurrency_cfg.txt \
     $(LOCAL_PATH)/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 
+PRODUCT_FULL_TREBLE_OVERRIDE := true
+
 PRODUCT_PACKAGES += \
     hwcomposer.msm8998 \
     android.hardware.graphics.composer@2.1-impl \
@@ -318,8 +322,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sensors/hals.conf:system/etc/sensors/hals.conf
 
 PRODUCT_PACKAGES += \
-    fs_config_dirs_vendor \
-    fs_config_files_vendor
+    fs_config_dirs \
+    fs_config_files
 
 # Context hub HAL
 PRODUCT_PACKAGES += \
