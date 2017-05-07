@@ -148,6 +148,7 @@
 /sys/module/subsystem_restart                                       u:object_r:sysfs_msm_subsys_restart:s0
 /sys/kernel/boot_adsp/boot                                          u:object_r:sysfs_msm_subsys:s0
 /sys/kernel/boot_slpi/boot                                          u:object_r:sysfs_msm_subsys:s0
+/sys/devices/soc/c1b7000\.i2c/i2c-9/9-0008(/.*)?                    u:object_r:sysfs_easel:s0
 
 # files in debugfs
 /sys/kernel/debug/rpm_stats                      u:object_r:debugfs_rpm:s0
@@ -198,7 +199,6 @@
 /vendor/bin/imsqmidaemon        u:object_r:ims_exec:s0
 /vendor/bin/imsdatadaemon       u:object_r:ims_exec:s0
 /vendor/bin/ims_rtp_daemon      u:object_r:ims_exec:s0
-/vendor/bin/imscmservice        u:object_r:imscm_exec:s0
 /vendor/bin/qmuxd               u:object_r:qmuxd_exec:s0
 /vendor/bin/cnd                 u:object_r:cnd_exec:s0
 /vendor/bin/esed                u:object_r:esed_exec:s0
@@ -285,3 +285,7 @@
 /persist/data(/.*)?       u:object_r:persist_data_file:s0
 /persist/display(/.*)?    u:object_r:persist_display_file:s0
 /persist/sensors(/.*)?    u:object_r:persist_sensors_file:s0
+
+/metadata                 u:object_r:rootfs:s0
+/metadata/.*              u:object_r:vold_data_file:s0
+

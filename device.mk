@@ -83,8 +83,6 @@ PRODUCT_PACKAGES += \
     update_engine \
     update_verifier
 
-PRODUCT_PACKAGES += SSRestartDetector
-
 PRODUCT_PACKAGES += \
     bootctrl.msm8998
 
@@ -319,7 +317,7 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-service
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/sensors/hals.conf:system/etc/sensors/hals.conf
+    $(LOCAL_PATH)/sensors/hals.conf:vendor/etc/sensors/hals.conf
 
 PRODUCT_PACKAGES += \
     fs_config_dirs \
@@ -514,7 +512,6 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0.vndk-sp\
     android.hardware.graphics.mapper@2.0.vndk-sp\
     android.hardware.graphics.common@1.0.vndk-sp\
-    android.hidl.base@1.0.vndk-sp\
     libhwbinder.vndk-sp\
     libbase.vndk-sp\
     libcutils.vndk-sp\
@@ -523,6 +520,14 @@ PRODUCT_PACKAGES += \
     libhidltransport.vndk-sp\
     libutils.vndk-sp\
     libc++.vndk-sp\
+    libRS_internal.vndk-sp\
+    libRSDriver.vndk-sp\
+    libRSCpuRef.vndk-sp\
+    libbcinfo.vndk-sp\
+    libblas.vndk-sp\
+    libft2.vndk-sp\
+    libpng.vndk-sp\
+    libcompiler_rt.vndk-sp\
     libbacktrace.vndk-sp\
     libunwind.vndk-sp\
     liblzma.vndk-sp\

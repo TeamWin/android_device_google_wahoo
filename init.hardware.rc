@@ -203,6 +203,9 @@ on post-fs-data
     # will fail
     restart qseecomd
 
+    # Set indication (checked by vold) that we have finished this action
+    setprop vold.post_fs_data_done 1
+
 # zygote need to be started after otapreopt which will be done on post-fs-data
 on zygote-start
     # zygote is started in common init.rc
@@ -315,10 +318,6 @@ on zygote-start
     mkdir /data/nfc/param 0770 nfc nfc
     mkdir /data/vendor/nfc 0770 nfc nfc
 
-
-    # Set indication (checked by vold) that we have finished this action
-    setprop vold.post_fs_data_done 1
-
 on early-boot
     # wait for devices
     wait_for_prop sys.qcom.devup 1
@@ -326,6 +325,26 @@ on early-boot
     wait_for_prop sys.all.modules.ready 1
     # Update dm-verity state and set partition.*.verified properties
     verity_update_state
+
+    # Permission for laser sensor driver
+    chown camera camera /sys/class/wahoo_laser/laser/enable_ps_sensor
+
+    # Permission for Vibrator
+    chown system system /sys/class/leds/vibrator/device/mode
+    chown system system /sys/class/leds/vibrator/device/od_clamp
+    chown system system /sys/class/leds/vibrator/device/rtp_input
+    chown system system /sys/class/leds/vibrator/device/scale
+    chown system system /sys/class/leds/vibrator/device/set_sequencer
+    chown system system /sys/class/leds/vibrator/device/autocal_result
+    chown system system /sys/class/leds/vibrator/device/ctrl_loop
+
+    # Permission for LED driver
+    chown system system /sys/class/leds/red/on_off_ms
+    chown system system /sys/class/leds/green/on_off_ms
+    chown system system /sys/class/leds/blue/on_off_ms
+    chown system system /sys/class/leds/red/rgb_start
+    chown system system /sys/class/leds/green/rgb_start
+    chown system system /sys/class/leds/blue/rgb_start
 
 on boot
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -374,26 +393,6 @@ on boot
     # Required for time_daemon
     mkdir /persist/time 0770 system system
     mkdir /data/time/ 0700 system system
-
-    # Permission for laser sensor driver
-    chown camera camera /sys/class/wahoo_laser/laser/enable_ps_sensor
-
-    # Permission for Vibrator
-    chown system system /sys/class/leds/vibrator/device/mode
-    chown system system /sys/class/leds/vibrator/device/od_clamp
-    chown system system /sys/class/leds/vibrator/device/rtp_input
-    chown system system /sys/class/leds/vibrator/device/scale
-    chown system system /sys/class/leds/vibrator/device/set_sequencer
-    chown system system /sys/class/leds/vibrator/device/autocal_result
-    chown system system /sys/class/leds/vibrator/device/ctrl_loop
-
-    # Permission for LED driver
-    chown system system /sys/class/leds/red/on_off_ms
-    chown system system /sys/class/leds/green/on_off_ms
-    chown system system /sys/class/leds/blue/on_off_ms
-    chown system system /sys/class/leds/red/rgb_start
-    chown system system /sys/class/leds/green/rgb_start
-    chown system system /sys/class/leds/blue/rgb_start
 
 service init-radio-sh /system/bin/init.radio.sh
     class late_start
