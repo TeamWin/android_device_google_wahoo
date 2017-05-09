@@ -206,6 +206,9 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     setprop vold.post_fs_data_done 1
 
+    # b/38048356 Setup debug folders for camera
+    mkdir /data/vendor/camera 0770 camera camera
+
 # zygote need to be started after otapreopt which will be done on post-fs-data
 on zygote-start
     # zygote is started in common init.rc
@@ -221,9 +224,6 @@ on zygote-start
 
     # Create directory for TZ Apps
     mkdir /data/misc/qsee 0770 system system
-
-    #Create folder for mm-qcamera-daemon
-    mkdir /data/misc/camera 0770 camera camera
 
     mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
@@ -402,8 +402,8 @@ service init-radio-sh /system/bin/init.radio.sh
 
 service folio_daemon /vendor/bin/folio_daemon
     class late_start
-    user root
-    group root
+    user system
+    group system
 
 service perfd /vendor/bin/perfd
    class main
