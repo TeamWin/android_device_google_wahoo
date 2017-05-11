@@ -156,9 +156,7 @@ PRODUCT_COPY_FILES += \
 
 # power HAL
 PRODUCT_PACKAGES += \
-    power.$(PRODUCT_HARDWARE) \
-    android.hardware.power@1.0-impl \
-    android.hardware.power@1.0-service
+    android.hardware.power@1.1-service.wahoo
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
@@ -222,12 +220,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # camera TNR controls
 PRODUCT_PROPERTY_OVERRIDES += \
-  persist.camera.tnr.video=1
-
-# Enable full mode face detection by default
-PRODUCT_PROPERTY_OVERRIDES += \
-  persist.camera.facedetect=3
-
+  persist.camera.tnr.video=1 \
 
 # WLAN driver configuration files
 PRODUCT_COPY_FILES += \
@@ -443,7 +436,7 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
-    $(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml \
+    $(LOCAL_PATH)/media_profiles_V1_0.xml:vendor/etc/media_profiles_V1_0.xml \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     audio.snd_card.open.retries=50
