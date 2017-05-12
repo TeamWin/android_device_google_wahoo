@@ -226,8 +226,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/wifi_concurrency_cfg.txt:system/etc/wifi/wifi_concurrency_cfg.txt \
-    $(LOCAL_PATH)/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
+    $(LOCAL_PATH)/wifi_concurrency_cfg.txt:system/etc/wifi/wifi_concurrency_cfg.txt
 
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 
@@ -398,6 +397,9 @@ PRODUCT_PACKAGES += \
 # stereo speakers: orientation changes swap L/R channels
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.audio.monitorRotation=true
+
+# Bug 37532694
+PRODUCT_PROPERTY_OVERRIDES += audio.adm.buffering.ms=4
 
 # Thermal packages
 PRODUCT_PACKAGES += \
