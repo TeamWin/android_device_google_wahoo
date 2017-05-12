@@ -68,6 +68,7 @@
 /dev/block/platform/soc/1da4000\.ufshc/by-name/hyp_[ab]        u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/keymaster_[ab]  u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/lockbooter_[ab] u:object_r:ab_block_device:s0
+/dev/block/platform/soc/1da4000\.ufshc/by-name/laf_[ab]        u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/msadp_[ab]      u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/pmic_[ab]       u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/rpm_[ab]        u:object_r:ab_block_device:s0
@@ -110,6 +111,9 @@
 /dev/block/sde                                  u:object_r:boot_block_device:s0
 /dev/block/sde13                                u:object_r:boot_block_device:s0
 /dev/block/sde27                                u:object_r:boot_block_device:s0
+
+# Block device for ZRAM
+/dev/block/zram0                                u:object_r:swap_block_device:s0
 
 # files in sysfs
 /sys/class/thermal(/.*)?                                            u:object_r:sysfs_thermal:s0
