@@ -1,7 +1,6 @@
 # communicate with perfd
-#allow hal_camera perfd_data_file:dir search;
-#allow hal_camera perfd:unix_stream_socket connectto;
-#allow hal_camera perfd_data_file:sock_file write;
+allow hal_camera perfd:unix_stream_socket connectto;
+allow hal_camera perfd_socket:sock_file write;
 
 allow hal_camera self:capability sys_nice;
 
@@ -52,3 +51,5 @@ userdebug_or_eng(`
 
 # access easel dev nodes
 allow hal_camera easel_device:chr_file { read write ioctl open };
+allow hal_camera sysfs_easel:file rw_file_perms;
+

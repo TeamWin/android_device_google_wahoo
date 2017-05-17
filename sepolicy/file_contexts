@@ -62,12 +62,13 @@
 /dev/block/platform/soc/1da4000\.ufshc/by-name/apdp_[ab]       u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/cmnlib64_[ab]   u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/cmnlib_[ab]     u:object_r:ab_block_device:s0
-/dev/block/platform/soc/1da4000\.ufshc/by-name/dbto_[ab]       u:object_r:ab_block_device:s0
+/dev/block/platform/soc/1da4000\.ufshc/by-name/dtbo_[ab]       u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/devcfg_[ab]     u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/hosd_[ab]       u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/hyp_[ab]        u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/keymaster_[ab]  u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/lockbooter_[ab] u:object_r:ab_block_device:s0
+/dev/block/platform/soc/1da4000\.ufshc/by-name/laf_[ab]        u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/msadp_[ab]      u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/pmic_[ab]       u:object_r:ab_block_device:s0
 /dev/block/platform/soc/1da4000\.ufshc/by-name/rpm_[ab]        u:object_r:ab_block_device:s0
@@ -106,6 +107,14 @@
 # Block devices for the drive that holds the xbl_a and xbl_b partitions.
 /dev/block/sd[bc]1?                             u:object_r:xbl_block_device:s0
 
+# Block device for hal_bootctl
+/dev/block/sde                                  u:object_r:boot_block_device:s0
+/dev/block/sde13                                u:object_r:boot_block_device:s0
+/dev/block/sde27                                u:object_r:boot_block_device:s0
+
+# Block device for ZRAM
+/dev/block/zram0                                u:object_r:swap_block_device:s0
+
 # files in sysfs
 /sys/class/thermal(/.*)?                                            u:object_r:sysfs_thermal:s0
 /sys/class/uio(/.*)?                                                u:object_r:sysfs_uio:s0
@@ -122,6 +131,7 @@
 /sys/devices/soc/c900000\.qcom,mdss_rotator(/.*)?                   u:object_r:sysfs_msm_subsys:s0
 /sys/devices/soc/c900000\.qcom,mdss_mdp/caps                        u:object_r:sysfs_mdss_mdp_caps:s0
 /sys/devices/soc/c17a000\.i2c/i2c-6/6-005a/leds(/.*)?               u:object_r:sysfs_leds:s0
+/sys/devices/soc/c1b5000\.i2c/i2c-7/7-0030/leds(/.*)?               u:object_r:sysfs_leds:s0
 /sys/devices/soc/c900000\.qcom,mdss_mdp/c900000\.qcom,mdss_mdp:qcom,mdss_fb_primary/leds(/.*)? u:object_r:sysfs_leds:s0
 /sys/devices/soc/800f000\.qcom,spmi/spmi-0/spmi0-03/800f000\.qcom,spmi:qcom,pmi8998@3:qcom,leds@d000/leds(/.*)? u:object_r:sysfs_leds:s0
 /sys/devices/soc/5000000\.qcom,kgsl-3d0(/.*)?                       u:object_r:sysfs_msm_subsys:s0
@@ -135,18 +145,22 @@
 /sys/kernel/debug/rmt_storage(/.*)?                                 u:object_r:debugfs_rmt_storage:s0
 /sys/module/msm_thermal(/.*)?                                       u:object_r:sysfs_thermal:s0
 /sys/module/tcp_cubic/parameters(/.*)?                              u:object_r:sysfs_net:s0
-/sys/devices/virtual/graphics/fb([0-2])+/idle_time                  u:object_r:sysfs_graphics:s0
+/sys/devices/virtual/graphics/fb([0-2])+(/.*)?                      u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/net(/.*)?                                      u:object_r:sysfs_net:s0
 /sys/devices/soc/8c0000\.qcom,msm-cam(/.*)?                         u:object_r:sysfs_camera:s0
 /sys/devices/soc0(/.*)?                                             u:object_r:sysfs_soc:s0
 /sys/devices/soc/caa0000\.qcom,jpeg(/.*)?                           u:object_r:sysfs_camera:s0
 /sys/devices/soc/caa4000\.qcom,fd(/.*)?                             u:object_r:sysfs_camera:s0
+/sys/devices/soc/800f000\.qcom,spmi/spmi-0/spmi0-02/800f000\.qcom,spmi:qcom,pmi8998@2:qpnp,fg/power_supply/bms/capacity               u:object_r:sysfs_batteryinfo:s0
+/sys/devices/soc/800f000\.qcom,spmi/spmi-0/spmi0-02/800f000\.qcom,spmi:qcom,pmi8998@2:qcom,qpnp-smb2/power_supply/battery/capacity    u:object_r:sysfs_batteryinfo:s0
 /sys/bus/msm_subsys(/.*)?                                           u:object_r:sysfs_msm_subsys:s0
 /sys/module/subsystem_restart                                       u:object_r:sysfs_msm_subsys_restart:s0
 /sys/kernel/boot_adsp/boot                                          u:object_r:sysfs_msm_subsys:s0
 /sys/kernel/boot_slpi/boot                                          u:object_r:sysfs_msm_subsys:s0
+/sys/devices/soc/c1b7000\.i2c/i2c-9/9-0008(/.*)?                    u:object_r:sysfs_easel:s0
 
 # files in debugfs
+/sys/kernel/debug/clk(/.*)?                      u:object_r:debugfs_clk:s0
 /sys/kernel/debug/rpm_stats                      u:object_r:debugfs_rpm:s0
 /sys/kernel/debug/rpm_master_stats               u:object_r:debugfs_rpm:s0
 /sys/kernel/debug/ion(/.*)?                      u:object_r:debugfs_ion:s0
@@ -154,7 +168,7 @@
 /sys/kernel/debug/tcpm/usbpd0                    u:object_r:debugfs_usb:s0
 /sys/kernel/debug/pd_engine/usbpd0               u:object_r:debugfs_usb:s0
 /sys/kernel/debug/ipc_logging/smblib/log         u:object_r:debugfs_usb:s0
-
+/sys/kernel/debug/msm_ipc_router(/.*)?           u:object_r:debugfs_ipc:s0
 
 # files in /system
 /system/bin/init\.power\.sh            u:object_r:init_power_exec:s0
@@ -166,6 +180,7 @@
 /vendor/firmware(/.*)?          u:object_r:vendor_firmware_file:s0
 /vendor/bin/hw/android\.hardware\.dumpstate@1\.0-service.wahoo      u:object_r:hal_dumpstate_impl_exec:s0
 /vendor/bin/hw/android\.hardware\.vr@1\.0-service.wahoo      u:object_r:hal_vr_default_exec:s0
+/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service.wahoo u:object_r:hal_fingerprint_default_exec:s0
 /vendor/bin/perfd               u:object_r:perfd_exec:s0
 /vendor/bin/thermal-engine      u:object_r:thermal-engine_exec:s0
 /vendor/bin/sensors.qcom        u:object_r:sensors_exec:s0
@@ -194,11 +209,11 @@
 /vendor/bin/imsqmidaemon        u:object_r:ims_exec:s0
 /vendor/bin/imsdatadaemon       u:object_r:ims_exec:s0
 /vendor/bin/ims_rtp_daemon      u:object_r:ims_exec:s0
-/vendor/bin/imscmservice        u:object_r:imscm_exec:s0
 /vendor/bin/qmuxd               u:object_r:qmuxd_exec:s0
 /vendor/bin/cnd                 u:object_r:cnd_exec:s0
 /vendor/bin/esed                u:object_r:esed_exec:s0
-/vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo            u:object_r:hal_usb_default_exec:s0
+/vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo             u:object_r:hal_usb_default_exec:s0
+/vendor/bin/hw/android\.hardware\.power@1\.1-service.wahoo           u:object_r:hal_power_default_exec:s0
 /vendor/bin/chre                u:object_r:chre_exec:s0
 /vendor/bin/folio_daemon        u:object_r:folio_daemon_exec:s0
 /vendor/bin/time_daemon         u:object_r:time_daemon_exec:s0
@@ -223,7 +238,13 @@
 /vendor/lib(64)?/libadreno_utils\.so       u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libgsl\.so                u:object_r:same_process_hal_file:s0
 
+/vendor/lib(64)?/hw/vulkan\.msm8998\.so    u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libEGL_adreno\.so         u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libGLESv1_CM_adreno\.so   u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libGLESv2_adreno\.so      u:object_r:same_process_hal_file:s0
+
 /vendor/lib(64)?/libdrmutils\.so           u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libdrm\.so                u:object_r:same_process_hal_file:s0
 
 # /vendor/app/TimeService/TimeService.apk
 /vendor/lib(64)?/libTimeService\.so        u:object_r:same_process_hal_file:s0
@@ -233,6 +254,7 @@
 # To test: run cts -m CtsRenderscriptTestCases
 /vendor/lib(64)?/libRSDriver_adreno\.so     u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libCB\.so                  u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libllvm-qgl\.so            u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libbccQTI\.so              u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libllvm-qcom\.so           u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/librs_adreno\.so           u:object_r:same_process_hal_file:s0
@@ -256,6 +278,7 @@
 /data/misc/location(/.*)?              u:object_r:location_data_file:s0
 /data/ramdump(/.*)?                    u:object_r:ramdump_data_file:s0
 /data/nfc(/.*)?                        u:object_r:nfc_data_file:s0
+/data/vendor/camera(/.*)?              u:object_r:camera_vendor_data_file:s0
 /data/vendor/nfc(/.*)?                 u:object_r:nfc_vendor_data_file:s0
 /data/vendor/radio(/.*)?               u:object_r:radio_vendor_data_file:s0
 /data/vendor/wifi(/.*)?                u:object_r:cnss_vendor_data_file:s0
@@ -274,3 +297,6 @@
 /persist/data(/.*)?       u:object_r:persist_data_file:s0
 /persist/display(/.*)?    u:object_r:persist_display_file:s0
 /persist/sensors(/.*)?    u:object_r:persist_sensors_file:s0
+
+/metadata                 u:object_r:rootfs:s0
+/metadata/.*              u:object_r:vold_data_file:s0

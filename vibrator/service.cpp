@@ -38,6 +38,7 @@ static const char *RTP_INPUT_PATH = "/sys/class/leds/vibrator/device/rtp_input";
 static const char *MODE_PATH = "/sys/class/leds/vibrator/device/mode";
 static const char *SEQUENCER_PATH = "/sys/class/leds/vibrator/device/set_sequencer";
 static const char *SCALE_PATH = "/sys/class/leds/vibrator/device/scale";
+static const char *CTRL_LOOP_PATH = "/sys/class/leds/vibrator/device/ctrl_loop";
 
 status_t registerVibratorService() {
     // ostreams below are required
@@ -71,32 +72,38 @@ status_t registerVibratorService() {
 
     // ostreams below are optional
     std::ofstream rtpinput{RTP_INPUT_PATH};
-    if (!state) {
+    if (!rtpinput) {
         int error = errno;
         ALOGW("Failed to open %s (%d): %s", RTP_INPUT_PATH, error, strerror(error));
     }
 
     std::ofstream mode{MODE_PATH};
-    if (!state) {
+    if (!mode) {
         int error = errno;
         ALOGW("Failed to open %s (%d): %s", MODE_PATH, error, strerror(error));
     }
 
     std::ofstream sequencer{SEQUENCER_PATH};
-    if (!state) {
+    if (!sequencer) {
         int error = errno;
         ALOGW("Failed to open %s (%d): %s", SEQUENCER_PATH, error, strerror(error));
     }
 
     std::ofstream scale{SCALE_PATH};
-    if (!state) {
+    if (!scale) {
         int error = errno;
         ALOGW("Failed to open %s (%d): %s", SCALE_PATH, error, strerror(error));
     }
 
+    std::ofstream ctrlloop{CTRL_LOOP_PATH};
+    if (!ctrlloop) {
+        int error = errno;
+        ALOGW("Failed to open %s (%d): %s", CTRL_LOOP_PATH, error, strerror(error));
+    }
+
     sp<IVibrator> vibrator = new Vibrator(std::move(activate), std::move(duration),
             std::move(state), std::move(rtpinput), std::move(mode),
-            std::move(sequencer), std::move(scale));
+            std::move(sequencer), std::move(scale), std::move(ctrlloop));
 
     vibrator->registerAsService();
 
