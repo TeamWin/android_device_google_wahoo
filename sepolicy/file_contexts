@@ -171,8 +171,6 @@
 /sys/kernel/debug/msm_ipc_router(/.*)?           u:object_r:debugfs_ipc:s0
 
 # files in /system
-/system/bin/init\.power\.sh            u:object_r:init_power_exec:s0
-/system/bin/init\.radio\.sh            u:object_r:init_radio_exec:s0
 /system/bin/location-mq-s              u:object_r:location_exec:s0
 /system/bin/lowi-server                u:object_r:location_exec:s0
 
@@ -212,6 +210,9 @@
 /vendor/bin/qmuxd               u:object_r:qmuxd_exec:s0
 /vendor/bin/cnd                 u:object_r:cnd_exec:s0
 /vendor/bin/esed                u:object_r:esed_exec:s0
+/vendor/bin/ese_load            u:object_r:esed_exec:s0
+/vendor/bin/ese-replay          u:object_r:esed_exec:s0
+/vendor/bin/ese-ls-provision    u:object_r:esed_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo             u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.power@1\.1-service.wahoo           u:object_r:hal_power_default_exec:s0
 /vendor/bin/chre                u:object_r:chre_exec:s0
@@ -222,6 +223,8 @@
 /vendor/bin/init\.qcom\.ipastart\.sh                                 u:object_r:init-qcom-ipastart-sh_exec:s0
 /vendor/bin/init\.insmod\.sh                                         u:object_r:init-insmod-sh_exec:s0
 /vendor/etc/init\.insmod\.cfg                                        u:object_r:init-insmod-sh_exec:s0
+/vendor/bin/init\.power\.sh     u:object_r:init_power_exec:s0
+/vendor/bin/init\.radio\.sh     u:object_r:init_radio_exec:s0
 
 /vendor/bin/hw/android\.hardware\.vibrator@1\.0-service.wahoo        u:object_r:hal_vibrator_default_exec:s0
 /vendor/bin/hw/android\.hardware\.keymaster@3\.0-service-qti         u:object_r:hal_keymaster_qti_exec:s0
@@ -284,6 +287,7 @@
 /data/vendor/wifi(/.*)?                u:object_r:cnss_vendor_data_file:s0
 /data/vendor/ramdump(/.*)?             u:object_r:ramdump_vendor_data_file:s0
 /data/vendor/modem_dump(/.*)?          u:object_r:modem_dump_file:s0
+/data/vendor/ese(/.*)?                 u:object_r:ese_vendor_data_file:s0
 
 # /
 /tombstones             u:object_r:rootfs:s0
