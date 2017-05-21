@@ -14,14 +14,7 @@
 # limitations under the License.
 #
 
-#
-# Following imports have been moved to /vendor/etc/init and will be
-# loaded by /init automatically, so are commented out to reduce the
-# noise in the log.
-#
-#import init.${ro.hardware}.usb.rc
-#import init.${ro.hardware}.diag.rc
-#import init.${ro.hardware}.logging.rc
+import /vendor/etc/init/hw/init.${ro.hardware}.usb.rc
 
 on charger
     write /sys/devices/system/cpu/cpu2/online 0
@@ -61,9 +54,14 @@ on init
     write /sys/devices/system/cpu/cpu6/online 1
     write /sys/devices/system/cpu/cpu7/online 1
     # configure governor settings for little cluster
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "sched"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+    write /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us 500
+    write /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us 20000
+
     # configure governor settings for big cluster
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "sched"
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "schedutil"
+    write /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us 500
+    write /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us 20000
 
     start power_sh
 
@@ -178,7 +176,7 @@ on late-fs
     start surfaceflinger
     start bootanim
     start hwcomposer-2-1
-    start configstore-hal-1-0
+    start configstore-hal
     start gralloc-2-0
 
     # Mount RW partitions which need run fsck
