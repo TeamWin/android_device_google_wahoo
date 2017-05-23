@@ -145,6 +145,7 @@
 /sys/kernel/debug/rmt_storage(/.*)?                                 u:object_r:debugfs_rmt_storage:s0
 /sys/module/msm_thermal(/.*)?                                       u:object_r:sysfs_thermal:s0
 /sys/module/tcp_cubic/parameters(/.*)?                              u:object_r:sysfs_net:s0
+/sys/module/diagchar/parameters/timestamp_switch                    u:object_r:sysfs_timestamp_switch:s0
 /sys/devices/virtual/graphics/fb([0-2])+(/.*)?                      u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/net(/.*)?                                      u:object_r:sysfs_net:s0
 /sys/devices/soc/8c0000\.qcom,msm-cam(/.*)?                         u:object_r:sysfs_camera:s0
@@ -214,8 +215,11 @@
 /vendor/bin/ims_rtp_daemon      u:object_r:ims_exec:s0
 /vendor/bin/qmuxd               u:object_r:qmuxd_exec:s0
 /vendor/bin/cnd                 u:object_r:cnd_exec:s0
+# Remove after b/38447389
 /vendor/bin/esed                u:object_r:esed_exec:s0
-/vendor/bin/ese_load            u:object_r:esed_exec:s0
+# Rename to android.hardware.[XXX] after b/38447431
+/vendor/bin/hw/esed             u:object_r:esed_exec:s0
+/vendor/bin/ese_load            u:object_r:init_ese_exec:s0
 /vendor/bin/ese-replay          u:object_r:esed_exec:s0
 /vendor/bin/ese-ls-provision    u:object_r:esed_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo             u:object_r:hal_usb_default_exec:s0
@@ -305,6 +309,7 @@
 /persist/data(/.*)?       u:object_r:persist_data_file:s0
 /persist/display(/.*)?    u:object_r:persist_display_file:s0
 /persist/sensors(/.*)?    u:object_r:persist_sensors_file:s0
+/persist/haptics(/.*)?    u:object_r:persist_haptics_file:s0
 
 /metadata                 u:object_r:rootfs:s0
 /metadata/.*              u:object_r:vold_data_file:s0

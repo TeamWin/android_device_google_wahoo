@@ -6,7 +6,6 @@ binder_call(system_server, per_mgr)
 binder_call(system_server, folio_daemon)
 
 binder_call(system_server, hal_camera_default)
-allow system_server per_mgr_service:service_manager find;
 
 # TODO(b/36613917): Remove this once system_server no longer communicates with netmgrd over sockets.
 typeattribute netmgrd socket_between_core_and_vendor_violators;
@@ -19,10 +18,6 @@ allow system_server persist_sensors_file:file r_file_perms;
 allow system_server location_data_file:dir create_dir_perms;
 allow system_server location_data_file:file create_file_perms;
 allow system_server wlan_device:chr_file rw_file_perms;
-
-userdebug_or_eng(`
-  permissive system_server;
-')
 
 # TODO(b/30675296): Remove following dontaudit's upon resolution of this bug
 # The timerslack_ns denials spam the system really horribly
