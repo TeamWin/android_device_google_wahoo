@@ -93,7 +93,9 @@ AB_OTA_UPDATER := true
 
 AB_OTA_PARTITIONS += \
     boot \
-    system
+    system \
+    vbmeta \
+    vendor
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -406,6 +408,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Bug 37532694
 PRODUCT_PROPERTY_OVERRIDES += audio.adm.buffering.ms=4
 
+# MIDI feature
+# PRODUCT_COPY_FILES += \
+#    frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
+
+# Audio low latency feature
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml
+
+# Pro audio feature
+# PRODUCT_COPY_FILES += \
+#   frameworks/native/data/etc/android.hardware.audio.pro.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.pro.xml
+
 # Thermal packages
 PRODUCT_PACKAGES += \
     thermal.default
@@ -533,6 +547,7 @@ PRODUCT_PACKAGES += \
     libbacktrace.vndk-sp\
     libunwind.vndk-sp\
     liblzma.vndk-sp\
+    libz.vndk-sp\
 
 PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
