@@ -57,4 +57,16 @@
         <permission name="android.permission.READ_PHONE_STATE" fixed="false"/>
     </exception>
 
+    <exception
+            package="com.google.intelligence.sense">
+        <!-- Record Audio -->
+        <permission name="android.permission.RECORD_AUDIO" fixed="false"/>
+    </exception>
+
+    <exception
+            package="com.qualcomm.ltebc_vzw">
+        <!-- Phone -->
+        <permission name="android.permission.READ_PHONE_STATE" fixed="false"/>
+    </exception>
+
 </exceptions>

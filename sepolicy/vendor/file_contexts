@@ -171,6 +171,7 @@
 /sys/kernel/debug/pd_engine/usbpd0               u:object_r:debugfs_usb:s0
 /sys/kernel/debug/ipc_logging/smblib/log         u:object_r:debugfs_usb:s0
 /sys/kernel/debug/msm_ipc_router(/.*)?           u:object_r:debugfs_ipc:s0
+/sys/kernel/debug/mdp(/.*)?                      u:object_r:debugfs_mdp:s0
 
 # files in /vendor
 /vendor/firmware(/.*)?          u:object_r:vendor_firmware_file:s0
@@ -219,6 +220,7 @@
 /vendor/bin/oemlock_provision   u:object_r:hal_bootctl_default_exec:s0
 /vendor/bin/oemlock-bridge      u:object_r:hal_bootctl_default_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo             u:object_r:hal_usb_default_exec:s0
+/vendor/bin/hw/android\.hardware\.power@1\.1-service.wahoo           u:object_r:hal_power_default_exec:s0
 /vendor/bin/chre                u:object_r:chre_exec:s0
 /vendor/bin/folio_daemon        u:object_r:folio_daemon_exec:s0
 /vendor/bin/time_daemon         u:object_r:time_daemon_exec:s0
@@ -282,10 +284,11 @@
 # data files
 /data/misc/radio(/.*)?                 u:object_r:radio_data_file:s0
 /data/misc/netmgr(/.*)?                u:object_r:netmgr_data_file:s0
-/data/misc/location(/.*)?              u:object_r:location_data_file:s0
+/data/vendor/location(/.*)?            u:object_r:location_data_file:s0
 /data/ramdump(/.*)?                    u:object_r:ramdump_data_file:s0
 /data/nfc(/.*)?                        u:object_r:nfc_data_file:s0
 /data/vendor/camera(/.*)?              u:object_r:camera_vendor_data_file:s0
+/data/vendor/display(/.*)?             u:object_r:display_vendor_data_file:s0
 /data/vendor/nfc(/.*)?                 u:object_r:nfc_vendor_data_file:s0
 /data/vendor/radio(/.*)?               u:object_r:radio_vendor_data_file:s0
 /data/vendor/wifi(/.*)?                u:object_r:cnss_vendor_data_file:s0

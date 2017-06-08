@@ -213,6 +213,9 @@ on post-fs-data
     # b/38048356 Setup debug folders for camera
     mkdir /data/vendor/camera 0770 camera camera
 
+    # b/38496103 Setup debug folders for display
+    mkdir /data/vendor/display 0770 system graphics
+
     # keep that at the end of on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     setprop vold.post_fs_data_done 1
@@ -315,12 +318,9 @@ on zygote-start
     chmod 0660 /data/misc/radio/db_check_done
 
     # Create directories for Location services
-    mkdir /data/misc/location 0770 gps gps
-    mkdir /data/misc/location/mq 0770 gps gps
-    mkdir /data/misc/location/xtwifi 0770 gps gps
-    mkdir /data/misc/location/gpsone_d 0770 system gps
-    mkdir /data/misc/location/quipc 0770 gps system
-    mkdir /data/misc/location/gsiff 0770 gps gps
+    mkdir /data/vendor/location 0770 gps gps
+    mkdir /data/vendor/location/mq 0770 gps gps
+    mkdir /data/vendor/location/xtwifi 0770 gps gps
 
     # NFC local data and nfcee xml storage
     mkdir /data/nfc 0770 nfc nfc
@@ -405,6 +405,9 @@ on boot
     # Required for time_daemon
     mkdir /persist/time 0770 system system
     mkdir /data/time/ 0700 system system
+
+    # default country code
+    setprop ro.boot.wificountrycode 00
 
 service init-radio-sh /vendor/bin/init.radio.sh
     class late_start
