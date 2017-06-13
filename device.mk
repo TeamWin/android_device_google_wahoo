@@ -156,6 +156,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vr.high_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vr.high_performance.xml \
     frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
     frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
+    frameworks/native/data/etc/android.hardware.telephony.carrierlock.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.carrierlock.xml \
 
 # power HAL
 PRODUCT_PACKAGES += \
@@ -217,7 +218,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # camera gyro and laser sensor
 PRODUCT_PROPERTY_OVERRIDES += \
-  persist.camera.gyro.android=4 \
+  persist.camera.gyro.android=20 \
   persist.camera.tof.direct=1 \
   persist.camera.max.previewfps=60 \
   persist.camera.sensor.hdr=2
