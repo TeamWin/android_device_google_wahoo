@@ -145,6 +145,9 @@ on init
     write /sys/block/zram0/comp_algorithm lz4
     write /proc/sys/vm/page-cluster 0
 
+    # Some user code relies on ro.boot.hardware.revision
+    setprop ro.boot.hardware.revision ${ro.revision}
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
@@ -266,8 +269,8 @@ on zygote-start
     chmod 0770 /data/misc/port_bridge
 
     #create netmgr log dir
-    mkdir /data/misc/netmgr 0770 radio radio
-    chmod 0770 /data/misc/netmgr
+    mkdir /data/vendor/netmgr 0771 radio radio
+    chmod 0771 /data/vendor/netmgr
 
     # Create the directories used by CnE subsystem
     mkdir /data/connectivity 0771 system system
