@@ -10,6 +10,7 @@ type sysfs_net, sysfs_type, fs_type;
 type sysfs_rmtfs, sysfs_type, fs_type;
 type sysfs_soc, sysfs_type, fs_type;
 type sysfs_timestamp_switch, sysfs_type, fs_type;
+type sysfs_touch, sysfs_type, fs_type;
 type sysfs_usb_c, sysfs_type, fs_type;
 
 type debugfs_clk, debugfs_type, fs_type;
@@ -59,6 +60,7 @@ type cnss_vendor_data_file, file_type, data_file_type, mlstrustedobject;
 type ramdump_vendor_data_file, file_type, data_file_type, mlstrustedobject;
 type modem_dump_file, file_type, data_file_type;
 type ese_vendor_data_file, file_type, data_file_type;
+type time_vendor_data_file, file_type, data_file_type;
 
 type vendor_firmware_file, vendor_file_type, file_type;
 
@@ -69,3 +71,5 @@ type sysfs_data, fs_type, sysfs_type;
 
 #diag sysfs files
 type sysfs_diag, fs_type, sysfs_type;
+
+type hexagon_halide_file, vendor_file_type, file_type;
