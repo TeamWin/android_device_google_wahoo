@@ -19,6 +19,7 @@
 #include "DumpstateDevice.h"
 
 #include <android-base/properties.h>
+#include <android-base/unique_fd.h>
 #include <cutils/properties.h>
 #include <libgen.h>
 #include <log/log.h>
@@ -31,8 +32,8 @@
 #define MODEM_LOG_LOC_PROPERTY "ro.radio.log_loc"
 #define MODEM_LOGGING_SWITCH "persist.radio.smlog_switch"
 
-#define DIAG_MDLOG_PROPERTY "persist.sys.modem.diag.mdlog"
-#define DIAG_MDLOG_STATUS_PROPERTY "sys.modem.diag.mdlog"
+#define DIAG_MDLOG_PROPERTY "sys.modem.diag.mdlog"
+#define DIAG_MDLOG_STATUS_PROPERTY "sys.modem.diag.mdlog_on"
 
 using android::os::dumpstate::CommandOptions;
 using android::os::dumpstate::DumpFileToFd;
@@ -45,9 +46,7 @@ namespace dumpstate {
 namespace V1_0 {
 namespace implementation {
 
-namespace {
-
-static void getModemLogs(int fd)
+void DumpstateDevice::dumpModem(int fd, int fdModem)
 {
     std::string modemLogDir = android::base::GetProperty(MODEM_LOG_LOC_PROPERTY, "");
     if (modemLogDir.empty()) {
@@ -83,9 +82,10 @@ static void getModemLogs(int fd)
             android::base::SetProperty(DIAG_MDLOG_PROPERTY, "false");
 
             ALOGD("Waiting for diag log to exit\n");
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 30; i++) {
                 if (!android::base::GetBoolProperty(DIAG_MDLOG_STATUS_PROPERTY, false)) {
                     ALOGD("diag log exited\n");
+                    sleep(1);
                     break;
                 }
 
@@ -113,8 +113,32 @@ static void getModemLogs(int fd)
             std::string modemLogPermCmd= "/vendor/bin/chmod a+rw " + modemLogCombined;
             RunCommandToFd(fd, "CHG PERM", { "/vendor/bin/sh", "-c", modemLogPermCmd.c_str()}, options);
 
+            std::vector<uint8_t> buffer(65536);
+            android::base::unique_fd fdLog(TEMP_FAILURE_RETRY(open(modemLogCombined.c_str(), O_RDONLY | O_CLOEXEC | O_NONBLOCK)));
+
+            if (fdLog >= 0) {
+                while (1) {
+                    ssize_t bytes_read = TEMP_FAILURE_RETRY(read(fdLog, buffer.data(), buffer.size()));
+
+                    if (bytes_read == 0) {
+                        break;
+                    } else if (bytes_read < 0) {
+                        ALOGD("read(%s): %s\n", modemLogCombined.c_str(), strerror(errno));
+                        break;
+                    }
+
+                    ssize_t result = TEMP_FAILURE_RETRY(write(fdModem, buffer.data(), bytes_read));
+
+                    if (result != bytes_read) {
+                        ALOGD("Failed to write %ld bytes, actually written: %ld", bytes_read, result);
+                        break;
+                    }
+                }
+            }
+
             std::string modemLogClearCmd= "/vendor/bin/rm -r " + modemLogAllDir;
             RunCommandToFd(fd, "RM MODEM DIR", { "/vendor/bin/sh", "-c", modemLogClearCmd.c_str()}, options);
+            RunCommandToFd(fd, "RM LOG", { "/vendor/bin/rm", modemLogCombined.c_str()}, options);
         }
     }
 }
@@ -132,9 +156,6 @@ static void DumpTouch(int fd) {
     }
 }
 
-} // unnamed namespace
-
-
 // Methods from ::android::hardware::dumpstate::V1_0::IDumpstateDevice follow.
 Return<void> DumpstateDevice::dumpstateBoard(const hidl_handle& handle) {
     if (handle == nullptr || handle->numFds < 1) {
@@ -148,7 +169,14 @@ Return<void> DumpstateDevice::dumpstateBoard(const hidl_handle& handle) {
         return Void();
     }
 
-    getModemLogs(fd);
+    if (handle->numFds < 2) {
+        ALOGE("no FD for modem\n");
+    }
+    else {
+        int fdModem = handle->data[1];
+        dumpModem(fd, fdModem);
+    }
+
     DumpFileToFd(fd, "SoC serial number", "/sys/devices/soc0/serial_number");
     DumpFileToFd(fd, "CPU present", "/sys/devices/system/cpu/present");
     DumpFileToFd(fd, "CPU online", "/sys/devices/system/cpu/online");
@@ -169,6 +197,7 @@ Return<void> DumpstateDevice::dumpstateBoard(const hidl_handle& handle) {
     DumpFileToFd(fd, "smblib-usb logs", "/d/ipc_logging/smblib/log");
     DumpFileToFd(fd, "ipc-local-ports", "/d/msm_ipc_router/dump_local_ports");
     DumpTouch(fd);
+    RunCommandToFd(fd, "USB Device Descriptors", {"/vendor/bin/sh", "-c", "cd /sys/bus/usb/devices/1-1 && cat product && cat bcdDevice; cat descriptors | od -t x1 -w16 -N96"});
 
     /* Check if qsee_logger tool exists */
     if (!access("/vendor/bin/qsee_logger", X_OK)) {
