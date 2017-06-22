@@ -165,7 +165,6 @@
 /vendor/bin/hw/android\.hardware\.usb@1\.1-service.wahoo             u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.power@1\.1-service.wahoo           u:object_r:hal_power_default_exec:s0
 /vendor/bin/chre                u:object_r:chre_exec:s0
-/vendor/bin/folio_daemon        u:object_r:folio_daemon_exec:s0
 /vendor/bin/time_daemon         u:object_r:time_daemon_exec:s0
 /vendor/bin/imsrcsd             u:object_r:hal_rcsservice_exec:s0
 /vendor/bin/init\.qcom\.devstart\.sh                                 u:object_r:init-qcom-devstart-sh_exec:s0
@@ -226,7 +225,6 @@
 /vendor/lib/dsp/fastrpc_shell_0             u:object_r:hexagon_halide_file:s0
 
 # data files
-/data/misc/radio(/.*)?                 u:object_r:radio_data_file:s0
 /data/vendor/netmgr(/.*)?              u:object_r:netmgr_data_file:s0
 /data/vendor/location(/.*)?            u:object_r:location_data_file:s0
 /data/ramdump(/.*)?                    u:object_r:ramdump_data_file:s0

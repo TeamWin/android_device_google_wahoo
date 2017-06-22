@@ -65,8 +65,8 @@ void DumpstateDevice::dumpModem(int fd, int fdModem)
         std::string diagLogDir = "/data/vendor/radio/diag_logs/logs";
         std::vector<std::string> rilAndNetmgrLogs
             {
-              "/data/misc/radio/ril_log",
-              "/data/misc/radio/ril_log_old",
+              "/data/vendor/radio/ril_log",
+              "/data/vendor/radio/ril_log_old",
               "/data/vendor/netmgr/netmgr_log",
               "/data/vendor/netmgr/netmgr_log_old"
             };
@@ -183,6 +183,9 @@ Return<void> DumpstateDevice::dumpstateBoard(const hidl_handle& handle) {
     DumpFileToFd(fd, "INTERRUPTS", "/proc/interrupts");
     DumpFileToFd(fd, "RPM Stats", "/d/rpm_stats");
     DumpFileToFd(fd, "Power Management Stats", "/d/rpm_master_stats");
+    DumpFileToFd(fd, "WLAN Power Stats", "/d/wlan0/power_stats");
+    DumpFileToFd(fd, "LL-Stats", "/d/wlan0/ll_stats");
+    DumpFileToFd(fd, "ICNSS Stats", "/d/icnss/stats");
     DumpFileToFd(fd, "SMD Log", "/d/ipc_logging/smd/log");
     RunCommandToFd(fd, "ION HEAPS", {"/vendor/bin/sh", "-c", "for d in $(ls -d /d/ion/*); do for f in $(ls $d); do echo --- $d/$f; cat $d/$f; done; done"});
     DumpFileToFd(fd, "dmabuf info", "/d/dma_buf/bufinfo");
