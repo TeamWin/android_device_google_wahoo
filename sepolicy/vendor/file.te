@@ -24,6 +24,7 @@ type debugfs_rmt_storage, debugfs_type, fs_type;
 type debugfs_usb, debugfs_type, fs_type;
 type debugfs_wlan, debugfs_type, fs_type;
 type debugfs_mdp, debugfs_type, fs_type;
+type debugfs_icnss, debugfs_type, fs_type;
 
 # /proc
 type proc_wifi_dbg, fs_type;
@@ -48,6 +49,7 @@ type persist_data_file, file_type;
 type persist_display_file, file_type;
 type persist_drm_file, file_type;
 type persist_haptics_file, file_type;
+type persist_rfs_file, file_type;
 type persist_sensors_file, file_type;
 type persist_time_file, file_type;
 
