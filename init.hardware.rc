@@ -162,11 +162,16 @@ on fs
     chmod 0770 /persist/rfs/shared
     chmod 0770 /persist/rfs/msm
     chmod 0770 /persist/rfs/msm/adsp
+    chown system system /persist/rfs/msm/adsp
     chmod 0770 /persist/rfs/msm/mpss
+    chown system system /persist/rfs/msm/mpss
     chmod 0770 /persist/rfs/mdm
     chmod 0770 /persist/rfs/mdm/adsp
+    chown system system /persist/rfs/mdm/adsp
     chmod 0770 /persist/rfs/mdm/mpss
+    chown system system /persist/rfs/mdm/mpss
     chmod 0770 /persist/rfs/mdm/sparrow
+    chown system system /persist/rfs/mdm/sparrow
     chmod 0770 /persist/rfs/apq
     chmod 0770 /persist/rfs/apq/gnss
     chmod 0770 /persist/hlos_rfs
@@ -194,7 +199,6 @@ on late-fs
 
     # Required for time_daemon
     mkdir /persist/time 0770 system system
-    mkdir /data/vendor/time 0700 system system
 
     # Start time daemon early so that the system time can be set early
     start time_daemon
@@ -322,8 +326,7 @@ on zygote-start
     chmod 664 /persist/sensors/sensors_settings
     chown system root /persist/sensors/sensors_settings
 
-    mkdir /data/misc/sensors
-    chmod 775 /data/misc/sensors
+    mkdir /data/vendor/sensors 0770
 
     # Mark the copy complete flag to not completed
     write /data/vendor/radio/copy_complete 0
@@ -520,8 +523,9 @@ service ss_ramdump /vendor/bin/subsystem_ramdump
 
 on property:persist.sys.ssr.enable_ramdumps=1
     write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
-    mkdir /data/vendor/ramdump 761 root system
     mkdir /data/vendor/ssrdump 761 root system
+    mkdir /data/vendor/ramdump 771 root system
+    mkdir /data/vendor/ramdump/bluetooth 771 root system
     start ss_ramdump
 
 on property:persist.sys.ssr.enable_ramdumps=0
@@ -650,7 +654,7 @@ on property:wc_transport.start_hci=false
 service hci_filter /vendor/bin/wcnss_filter
     class late_start
     user bluetooth
-    group bluetooth diag
+    group bluetooth diag system
     disabled
 
 service loc_launcher /vendor/bin/loc_launcher

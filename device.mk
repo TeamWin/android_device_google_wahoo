@@ -402,7 +402,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
     android.hardware.audio.effect@2.0-impl \
-    android.hardware.broadcastradio@1.0-impl \
     android.hardware.soundtrigger@2.0-impl \
     android.hardware.audio@2.0-service
 
@@ -588,3 +587,7 @@ ifneq (,$(filter user userdebug, $(TARGET_BUILD_VARIANT)))
     $(call add-product-dex-preopt-module-config,services,--generate-mini-debug-info)
     $(call add-product-dex-preopt-module-config,wifi-service,--generate-mini-debug-info)
 endif
+
+# QC time-daemon to use persist
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.delta_time.enable=true
