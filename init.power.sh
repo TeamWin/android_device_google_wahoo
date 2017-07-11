@@ -20,7 +20,7 @@ do
     write $cpubw/polling_interval 50
     write $cpubw/min_freq 1525
     write $cpubw/bw_hwmon/mbps_zones "3143 5859 11863 13763"
-    write $cpubw/bw_hwmon/sample_ms 4
+    write $cpubw/bw_hwmon/sample_ms 2
     write $cpubw/bw_hwmon/io_percent 34
     write $cpubw/bw_hwmon/hist_memory 20
     write $cpubw/bw_hwmon/hyst_length 10
