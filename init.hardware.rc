@@ -24,6 +24,11 @@ on charger
     write /sys/devices/system/cpu/cpu6/online 0
     write /sys/devices/system/cpu/cpu7/online 0
     wait /dev/block/bootdevice
+    # Enable UFS powersaving
+    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
+    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
+    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
+    write /sys/module/lpm_levels/parameters/sleep_disabled N
 
 service charger /charger
     class charger
@@ -34,10 +39,11 @@ on early-init
     chmod 0755 /sys/kernel/debug
 
 on init
-    # Disable UFS clk scaling
+    # Disable UFS powersaving
     write /sys/devices/soc/1da4000.ufshc/clkscale_enable 0
     write /sys/devices/soc/1da4000.ufshc/clkgate_enable 0
     write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 0
+    write /sys/module/lpm_levels/parameters/sleep_disabled Y
 
     # Loading kernel modules in background
     start insmod_sh
@@ -67,8 +73,6 @@ on init
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "schedutil"
     write /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us 500
     write /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us 20000
-
-    start power_sh
 
     # set default schedTune value for foreground/top-app
     write /dev/stune/foreground/schedtune.prefer_idle 1
@@ -141,7 +145,6 @@ on init
     write /sys/module/lpm_levels/system/pwr/pwr-l2-ret/idle_enabled N
     write /sys/module/lpm_levels/system/perf/perf-l2-dynret/idle_enabled N
     write /sys/module/lpm_levels/system/perf/perf-l2-ret/idle_enabled N
-    write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # b/37682684 Enable suspend clock reporting
     write /sys/kernel/debug/clk/debug_suspend 1
@@ -171,13 +174,16 @@ on fs
     chown system system /persist/rfs/msm/adsp
     chmod 0770 /persist/rfs/msm/mpss
     chown system system /persist/rfs/msm/mpss
+    mkdir /persist/rfs/msm/slpi 0770 system system
     chmod 0770 /persist/rfs/mdm
     chmod 0770 /persist/rfs/mdm/adsp
     chown system system /persist/rfs/mdm/adsp
     chmod 0770 /persist/rfs/mdm/mpss
     chown system system /persist/rfs/mdm/mpss
+    mkdir /persist/rfs/mdm/slpi 0770 system system
     chmod 0770 /persist/rfs/mdm/sparrow
     chown system system /persist/rfs/mdm/sparrow
+    mkdir /persist/rfs/mdm/tn 0770 system system
     chmod 0770 /persist/rfs/apq
     chmod 0770 /persist/rfs/apq/gnss
     chmod 0770 /persist/hlos_rfs
@@ -229,12 +235,6 @@ on post-fs-data
     # We can start netd here before in is launched in common init.rc on zygote-start
     start netd
 
-    # Restart qseecomd once we have /data
-    # qseecomd being started vey early it needs to restarted once /data
-    # is mounted else storing secure content such as fingerprint data
-    # will fail
-    restart qseecomd
-
     # b/38048356 Setup debug folders for camera
     mkdir /data/vendor/camera 0770 camera camera
 
@@ -251,7 +251,7 @@ on post-fs-data
 # zygote need to be started after otapreopt which will be done on post-fs-data
 on zygote-start
     # zygote is started in common init.rc
-    # and now we can continue initialize /data/
+    # and now we can continue to initialize /data/
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
     mkdir /tombstones/lpass 0771 system system
@@ -328,11 +328,26 @@ on zygote-start
     mkdir /data/system/perfd 0770 root system
     chmod 2770 /data/system/perfd
 
+    # Setup sensors-related directories and permissions
+    chown root system /persist/sensors
     chmod 775 /persist/sensors
+    chown root system /persist/sensors/sensors_settings
     chmod 664 /persist/sensors/sensors_settings
-    chown system root /persist/sensors/sensors_settings
+    chown root system /persist/sensors/sns.reg
+    chmod 664 /persist/sensors/sns.reg
 
     mkdir /data/vendor/sensors 0770
+    chown system system /data/vendor/sensors
+
+    # These files might have been created by root from a prior build - make sure
+    # they are accessible to the sensors daemon
+    chown system system /data/vendor/sensors/cal.bin
+    chown system system /data/vendor/sensors/cal.txt
+
+    # /dev/sensors only supports an ioctl to get the current SLPI timestamp;
+    # allow the sensors daemon to perform this as non-root
+    chown root system /dev/sensors
+    chmod 660 /dev/sensors
 
     # Mark the copy complete flag to not completed
     write /data/vendor/radio/copy_complete 0
@@ -462,6 +477,7 @@ service perfd /vendor/bin/perfd
    user root
    group root readproc system
    socket perfd seqpacket 0666 root system
+   disabled
 
 service thermal-engine /vendor/bin/thermal-engine -c ${sys.qcom.thermalcfg:-/vendor/etc/thermal-engine.conf}
    class main
@@ -496,11 +512,19 @@ service per_proxy /vendor/bin/pm-proxy
     group system
     disabled
 
+on property:sys.post_boot.parsed=1
+    start perfd
+
 on property:sys.boot_completed=1
-    # Enable UFS clk scaling
+    # Enable power setting and set sys.post_boot.parsed to 1
+    # to start perfd
+    start power_sh
+
+    # Enable UFS powersaving
     write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
     write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
     write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
+    write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # Enable ZRAM on boot_complete
     swapon_all /vendor/etc/fstab.${ro.hardware}
@@ -557,8 +581,11 @@ on property:persist.sys.ssr.enable_ramdumps=0
 
 service sensors /vendor/bin/sensors.qcom
     class core
-    user root
-    group root
+    user system
+    group system
+    # Grants the ability for this daemon to bind IPC router ports so it can
+    # register QMI services
+    capabilities NET_BIND_SERVICE
 
 service adsprpcd /vendor/bin/adsprpcd
    class main
@@ -573,6 +600,7 @@ service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
 service rmt_storage /vendor/bin/rmt_storage
     class core
     user root
+    ioprio rt 0
     shutdown critical
 
 service tftp_server /vendor/bin/tftp_server
@@ -614,16 +642,10 @@ service imsdatadaemon /vendor/bin/imsdatadaemon
    group system wifi radio inet log
    disabled
 
-on property:sys.ims.QMI_DAEMON_STATUS=1
+on property:vendor.ims.QMI_DAEMON_STATUS=1
    start imsdatadaemon
 
 service ims_rtp_daemon /vendor/bin/ims_rtp_daemon
-   class main
-   user system
-   group radio diag inet log
-   disabled
-
-service imscmservice /vendor/bin/imscmservice
    class main
    user system
    group radio diag inet log
@@ -635,9 +657,8 @@ service imsrcsservice /vendor/bin/imsrcsd
    group radio diag inet log
    disabled
 
-on property:sys.ims.DATA_DAEMON_STATUS=1
+on property:vendor.ims.DATA_DAEMON_STATUS=1
    start ims_rtp_daemon
-   start imscmservice
    start imsrcsservice
 
 service qmuxd /vendor/bin/qmuxd
@@ -645,9 +666,11 @@ service qmuxd /vendor/bin/qmuxd
    user root
    group radio audio bluetooth gps nfc qcom_diag
 
+#TODO evaluate group system once b/62571088 is resolved
 service cnd /vendor/bin/cnd
    class main
-   socket cnd stream 660 root inet
+   user system
+   group inet system wifi radio wakelock
 
 service netmgrd /vendor/bin/netmgrd
     class main
