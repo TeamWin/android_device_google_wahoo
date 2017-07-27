@@ -23,11 +23,12 @@ on charger
     write /sys/devices/system/cpu/cpu5/online 0
     write /sys/devices/system/cpu/cpu6/online 0
     write /sys/devices/system/cpu/cpu7/online 0
-    wait /dev/block/bootdevice
+    wait /dev/block/platform/soc/${ro.boot.bootdevice}
     # Enable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/hibern8_on_idle_enable 1
+    write /sys/class/typec/port0/port_type sink
     write /sys/module/lpm_levels/parameters/sleep_disabled N
 
 service charger /charger
@@ -40,9 +41,9 @@ on early-init
 
 on init
     # Disable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 0
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 0
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/hibern8_on_idle_enable 0
     write /sys/module/lpm_levels/parameters/sleep_disabled Y
 
     # Loading kernel modules in background
@@ -512,6 +513,7 @@ service per_mgr /vendor/bin/pm-service
     user system
     group system
     ioprio rt 4
+    shutdown critical
 
 service per_proxy /vendor/bin/pm-proxy
     class core
@@ -528,9 +530,9 @@ on property:sys.boot_completed=1
     start power_sh
 
     # Enable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/hibern8_on_idle_enable 1
     write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # Enable ZRAM on boot_complete
@@ -564,6 +566,7 @@ service qseecomd /vendor/bin/qseecomd
    class core
    user root
    group root
+   shutdown critical
 
 service time_daemon /vendor/bin/time_daemon
    class core
@@ -744,6 +747,7 @@ service chre /vendor/bin/chre
     user system
     group system
     socket chre seqpacket 0660 root system
+    shutdown critical
 
 service power_sh /vendor/bin/init.power.sh
     class main

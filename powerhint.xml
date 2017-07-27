@@ -64,7 +64,7 @@
     <Hint type="0x1A00"> <!--interaction-->
         <Resource opcode="0x40800000" value="0x44C"/>     <!-- B CPU - Cluster min freq ~1.1 Ghz -->
         <Resource opcode="0x40800100" value="0x44C"/>     <!-- L CPU - Cluster min freq ~1.1 Ghz -->
-        <Resource opcode="0x42C18000" value="0xA"/>      <!-- Top App schedtune boost to 10 -->
+        <Resource opcode="0x42C18000" value="0x32"/>      <!-- Top App schedtune boost to 50 -->
         <Resource opcode="0x4180C000" value="0x0"/>       <!-- CPUBW disable hysteresis -->
         <Resource opcode="0x41800000" value="0x33"/>      <!-- CPUBW min freq 681 MHz -->
     </Hint>
