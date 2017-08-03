@@ -484,6 +484,9 @@ on boot
     # Make the ftm4 command node writeable from dumpstate
     chown system system /sys/devices/virtual/input/ftm4_touch/cmd
 
+    # ftm4 VR mode
+    chown system system /sys/devices/virtual/input/ftm4_touch/vrmode
+
 service init-elabel-sh /system/bin/init.elabel.sh
     class late_start
     user system
@@ -515,6 +518,13 @@ service thermal-engine /vendor/bin/thermal-engine -c ${sys.qcom.thermalcfg:-/ven
    socket thermal-send-client stream 0666 system system
    socket thermal-recv-client stream 0660 system system
    socket thermal-recv-passive-client stream 0666 system system
+
+service msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
+    socket msm_irqbalance seqpacket 660 root system
+    class core
+    user root
+    group root
+    writepid /dev/cpuset/system-background/tasks
 
 on property:persist.sys.ssr.restart_level=*
     start ssr_setup
