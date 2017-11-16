@@ -180,3 +180,5 @@ TARGET_RECOVERY_FSTAB := device/google/muskie/recovery.fstab
 TW_RECOVERY_ADDITIONAL_RELINK_FILES := $(OUT)/system/lib64/libhardware_legacy.so
 #TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
+# MTP will not work until we update it to support ffs
+TW_EXCLUDE_MTP := true

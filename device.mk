@@ -609,6 +609,11 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
 # TWRP
 PRODUCT_COPY_FILES += \
     device/google/wahoo/fstab.hardware:recovery/root/fstab.$(PRODUCT_HARDWARE) \
+    device/google/wahoo/recovery/root/sbin/ese_load:recovery/root/sbin/ese_load \
+    device/google/wahoo/recovery/root/system/etc/event-log-tags:recovery/root/event-log-tags \
+    device/google/wahoo/recovery/root/sbin/prepdecrypt.sh:recovery/root/sbin/prepdecrypt.sh \
+
+PRODUCT_COPY_FILES += \
     device/google/wahoo/recovery/root/sbin/qseecomd:recovery/root/sbin/qseecomd \
     device/google/wahoo/recovery/root/sbin/libdiag.so:recovery/root/sbin/libdiag.so \
     device/google/wahoo/recovery/root/sbin/libdrmfs.so:recovery/root/sbin/libdrmfs.so \
@@ -620,7 +625,9 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/recovery/root/sbin/libgptutils.so:recovery/root/sbin/libgptutils.so \
     device/google/wahoo/recovery/root/sbin/libkeymasterdeviceutils.so:recovery/root/sbin/libkeymasterdeviceutils.so \
     device/google/wahoo/recovery/root/nonplat_hwservice_contexts:recovery/root/nonplat_hwservice_contexts \
+    device/google/wahoo/recovery/root/nonplat_hwservice_contexts:recovery/root/nonplat_service_contexts \
     device/google/wahoo/recovery/root/plat_hwservice_contexts:recovery/root/plat_hwservice_contexts \
+    device/google/wahoo/recovery/root/plat_hwservice_contexts:recovery/root/plat_service_contexts \
     device/google/wahoo/recovery/root/vendor/manifest.xml:recovery/root/vendor/manifest.xml \
     device/google/wahoo/recovery/root/vendor/compatibility_matrix.xml:recovery/root/vendor/compatibility_matrix.xml \
     device/google/wahoo/recovery/root/odm/lib64/hw/android.hardware.boot@1.0-impl.so:recovery/root/odm/lib64/hw/android.hardware.boot@1.0-impl.so \
@@ -630,9 +637,7 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/recovery/root/sbin/android.hardware.gatekeeper@1.0-service-qti:recovery/root/sbin/android.hardware.gatekeeper@1.0-service-qti \
     device/google/wahoo/recovery/root/sbin/android.hardware.boot@1.0-service:recovery/root/sbin/android.hardware.boot@1.0-service \
     device/google/wahoo/recovery/root/odm/lib64/hw/bootctrl.msm8998.so:recovery/root/odm/lib64/hw/bootctrl.msm8998.so \
-    device/google/wahoo/recovery/root/sbin/prepdecrypt.sh:recovery/root/sbin/prepdecrypt.sh \
     device/google/wahoo/recovery/root/sbin/esed:recovery/root/sbin/esed \
-    device/google/wahoo/recovery/root/sbin/ese_load:recovery/root/sbin/ese_load \
     device/google/wahoo/recovery/root/sbin/ese-ls-provision:recovery/root/sbin/ese-ls-provision \
     device/google/wahoo/recovery/root/sbin/android.hardware.weaver@1.0.so:recovery/root/sbin/android.hardware.weaver@1.0.so \
     device/google/wahoo/recovery/root/sbin/libp61-jcop-kit.so:recovery/root/sbin/libp61-jcop-kit.so \
