@@ -26,6 +26,7 @@ insmod /v/lib/modules/htc_battery.ko
 
 # Pixel 2 XL taimen modules
 insmod /v/lib/modules/touch_core_base.ko
+insmod /v/lib/modules/ftm4.ko
 insmod /v/lib/modules/lge_battery.ko
 
 if [ -f /s/system/build.prop ]; then
