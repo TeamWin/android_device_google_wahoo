@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Allow Lineage config to override others
+-include device/google/wahoo/BoardConfigLineage.mk
+
 TARGET_BOARD_PLATFORM := msm8998
 
 TARGET_ARCH := arm64
