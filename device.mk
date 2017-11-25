@@ -53,9 +53,6 @@ SRC_CAMERA_HAL_DIR := hardware/qcom/camera/msm8998
 
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
-# Get kernel-headers
-$(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
-
 $(call inherit-product, device/google/wahoo/utils.mk)
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -70,7 +67,6 @@ PRODUCT_SHIPPING_API_LEVEL := 26
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel \
     $(LOCAL_PATH)/init.recovery.hardware.rc:recovery/root/init.recovery.$(PRODUCT_HARDWARE).rc \
     $(LOCAL_PATH)/init.hardware.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.$(PRODUCT_HARDWARE).rc \
     $(LOCAL_PATH)/init.hardware.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.wahoo.usb.rc \
