@@ -1,7 +1,112 @@
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    chmod 0660 /dev/qseecom
+    chown system drmrpc /dev/qseecom
+    chmod 0664 /dev/ion
+    chown system system /dev/ion
+    start pulldecryptfiles
+    install_keyring
 
+service hwservicemanager /sbin/hwservicemanager
+    user root
+    group root
+    disabled
+    onrestart setprop hwservicemanager.ready false
+    seclabel u:r:recovery:s0
+
+service keymaster-3-0 /sbin/android.hardware.keymaster@3.0-service-qti
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service gatekeeper-1-0 /sbin/android.hardware.gatekeeper@1.0-service-qti
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service boot-1-0 /sbin/android.hardware.boot@1.0-service
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+# separate copy needed to use /sbin/linker64 instead of /system/bin/linker64
+service sbinqseecomd /sbin/qseecomd
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service prepdecrypt /sbin/prepdecrypt.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service esed /sbin/esed
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+#on post-fs-data
+#    mkdir /data/vendor/ese 0761 ese ese
+#    restorecon /data/vendor/ese
+#    start ese_load
+
+service ese_load /sbin/ese_load force
+    disabled
+    oneshot
+    user root
+    group root
+    ioprio idle 0
+    seclabel u:r:recovery:s0
+
+service servicemanager /sbin/servicemanager
+    disabled
+    user root
+    group root readproc
+    seclabel u:r:recovery:s0
+    writepid /dev/cpuset/system-background/tasks
+
+service keystore /sbin/keystore /tmp/misc/keystore
+    disabled
+    user root
+    group root drmrpc readproc
+    seclabel u:r:recovery:s0
+    writepid /dev/cpuset/foreground/tasks
+
+on init
+    setprop ro.hardware.keystore msm8998
+    setprop ro.hardware.gatekeeper msm8998
+    setprop ro.hardware.bootctrl msm8998
+    start prepdecrypt
+    #setprop crypto.ready 1
+
+on property:crypto.ready=1
+    #start prepdecrypt
+    start hwservicemanager
+    start keymaster-3-0
+    start gatekeeper-1-0
+    start sbinqseecomd
+    start ese_load
+    start esed
+    start servicemanager
+    #start keystore
+
+on property:crypto.ready=0
+    stop sbinqseecomd
+    stop keymaster-3-0
+    stop gatekeeper-1-0
+    stop hwservicemanager
+    stop esed
+    stop keystore
+    stop servicemanager
+
+# defaults from recovery
 on init
     mount configfs none /config
     mkdir /config/usb_gadget/g1 0770 shell shell
