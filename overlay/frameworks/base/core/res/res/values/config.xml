@@ -343,4 +343,10 @@
 
     <!-- Allow screen mirroring/miracast -->
     <bool name="config_enableWifiDisplay">true</bool>
+
+    <!-- Specify model in case of attestation failure due to misprovisioned device. -->
+    <string name="config_misprovisionedDeviceModel" translatable="false">Pixel 2</string>
+
+    <!-- Brand value for attestation of misprovisioned device. -->
+    <string name="config_misprovisionedBrandValue" translatable="false">htc</string>
 </resources>
