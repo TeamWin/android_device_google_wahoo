@@ -74,3 +74,4 @@ persist.sys.wfd.virtual=0
 #ro.use_data_netmgrd=true
 persist.data.netmgrd.qos.enable=true
 persist.data.mode=concurrent
+

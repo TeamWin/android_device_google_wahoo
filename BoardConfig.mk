@@ -162,3 +162,27 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 TARGET_USES_MKE2FS := true
 
 BOARD_VNDK_VERSION := current
+
+PRODUCT_VENDOR_KERNEL_HEADERS := device/google/wahoo/kernel-headers
+
+# TWRP
+TW_THEME := portrait_hdpi
+BOARD_SUPPRESS_SECURE_ERASE := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_DEFAULT_BRIGHTNESS := "80"
+TW_INCLUDE_CRYPTO := true
+AB_OTA_UPDATER := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TARGET_RECOVERY_FSTAB := device/google/wahoo/recovery.fstab
+#TW_RECOVERY_ADDITIONAL_RELINK_FILES := $(OUT)/system/lib64/libhardware_legacy.so
+#TARGET_RECOVERY_DEVICE_MODULES += android.hardware.boot@1.0
+#TARGET_RECOVERY_DEVICE_MODULES += android.hardware.confirmationui@1.0
+#TW_RECOVERY_ADDITIONAL_RELINK_FILES := out/target/product/$(PRODUCT_HARDWARE)/system/lib64/android.hardware.boot@1.0.so
+#TW_RECOVERY_ADDITIONAL_RELINK_FILES += out/target/product/$(PRODUCT_HARDWARE)/system/lib64/android.hardware.confirmationui@1.0.so
+TWRP_INCLUDE_LOGCAT := true
+TARGET_USES_LOGD := true
+# MTP will not work until we update it to support ffs
+TW_EXCLUDE_MTP := true
+PLATFORM_SECURITY_PATCH := 2020-10-05
+TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch"
