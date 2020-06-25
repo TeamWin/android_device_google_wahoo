@@ -186,3 +186,4 @@ TARGET_USES_LOGD := true
 TW_EXCLUDE_MTP := true
 PLATFORM_SECURITY_PATCH := 2020-10-05
 TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch"
+TW_USE_TOOLBOX := true
