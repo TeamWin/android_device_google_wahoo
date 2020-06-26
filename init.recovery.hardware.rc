@@ -8,6 +8,7 @@ on fs
     install_keyring
 
 on init
+    start touchdriver
     mount configfs none /config
     mkdir /config/usb_gadget/g1 0770 shell shell
     write /config/usb_gadget/g1/idVendor 0x18d1
@@ -65,6 +66,13 @@ service sbinqseecomd /sbin/qseecomd
     seclabel u:r:recovery:s0
 
 service prepdecrypt /sbin/prepdecrypt.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service touchdriver /sbin/touchdriver.sh
     oneshot
     disabled
     user root

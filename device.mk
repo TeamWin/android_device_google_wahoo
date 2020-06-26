@@ -680,6 +680,7 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/recovery/root/sbin/ese_load:recovery/root/sbin/ese_load \
     device/google/wahoo/recovery/root/system/etc/event-log-tags:recovery/root/event-log-tags \
     device/google/wahoo/recovery/root/sbin/prepdecrypt.sh:recovery/root/sbin/prepdecrypt.sh \
+    device/google/wahoo/recovery/root/sbin/touchdriver.sh:recovery/root/sbin/touchdriver.sh \
 
 PRODUCT_COPY_FILES += \
     device/google/wahoo/recovery/root/etc/twrp.fstab:recovery/root/etc/twrp.fstab \

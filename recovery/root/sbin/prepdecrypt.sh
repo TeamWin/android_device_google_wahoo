@@ -37,15 +37,6 @@ rm -f /system
 mkdir -p /system/etc/vintf
 cp /manifest.xml /system/etc/vintf/manifest.xml
 
-# Pixel 2 walleye modules
-insmod /v/lib/modules/synaptics_dsx_core_htc.ko
-insmod /v/lib/modules/htc_battery.ko
-
-# Pixel 2 XL taimen modules
-insmod /v/lib/modules/touch_core_base.ko
-insmod /v/lib/modules/ftm4.ko
-insmod /v/lib/modules/lge_battery.ko
-
 device_codename=$(getprop ro.boot.hardware)
 is_fastboot_twrp=$(getprop ro.boot.fastboot)
 if [ ! -z "$is_fastboot_twrp" ]; then
