@@ -183,8 +183,7 @@ TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 # MTP will not work until we update it to support ffs
 TW_EXCLUDE_MTP := true
-PLATFORM_SECURITY_PATCH := 2020-10-05
-TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch"
+TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch;ro.build.version.release"
 TW_USE_TOOLBOX := true
 BOARD_VNDK_RUNTIME_DISABLE := true
 TW_INCLUDE_REPACKTOOLS := true
