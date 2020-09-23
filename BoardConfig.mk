@@ -164,6 +164,7 @@ TARGET_USES_MKE2FS := true
 BOARD_VNDK_VERSION := current
 
 PRODUCT_VENDOR_KERNEL_HEADERS := device/google/wahoo/kernel-headers
+LZMA_RAMDISK_TARGETS := recovery,boot
 
 # TWRP
 TW_THEME := portrait_hdpi
