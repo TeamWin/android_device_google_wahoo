@@ -184,8 +184,6 @@ TARGET_RECOVERY_FSTAB := device/google/wahoo/recovery.fstab
 #TW_RECOVERY_ADDITIONAL_RELINK_FILES += out/target/product/$(PRODUCT_HARDWARE)/system/lib64/android.hardware.confirmationui@1.0.so
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
-# MTP will not work until we update it to support ffs
-TW_EXCLUDE_MTP := true
 TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch;ro.build.version.release"
 TW_USE_TOOLBOX := true
 BOARD_VNDK_RUNTIME_DISABLE := true
