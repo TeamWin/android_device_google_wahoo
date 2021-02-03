@@ -188,5 +188,6 @@ TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch;ro.build.version.re
 TW_USE_TOOLBOX := true
 BOARD_VNDK_RUNTIME_DISABLE := true
 TW_INCLUDE_REPACKTOOLS := true
+TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone7/temp
 TW_DELAY_TOUCH_INIT_MS := 1000
 TW_EXTRA_LANGUAGES := true
