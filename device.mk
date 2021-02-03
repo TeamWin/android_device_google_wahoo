@@ -676,6 +676,7 @@ endif
 
 # TWRP
 PRODUCT_COPY_FILES += \
+    device/google/wahoo/init.hardware.usb.rc:root/init.recovery.usb.rc \
     device/google/wahoo/fstab.hardware:recovery/root/fstab.$(PRODUCT_HARDWARE) \
     device/google/wahoo/recovery/root/sbin/ese_load:recovery/root/sbin/ese_load \
     device/google/wahoo/recovery/root/system/etc/event-log-tags:recovery/root/event-log-tags \
