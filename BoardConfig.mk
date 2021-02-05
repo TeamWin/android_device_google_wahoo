@@ -79,6 +79,8 @@ BOARD_DTBOIMG_PARTITION_SIZE := 8388608
 
 TARGET_COPY_OUT_VENDOR := vendor
 
+LZMA_RAMDISK_TARGETS := recovery,boot
+
 # Install odex files into the other system image
 BOARD_USES_SYSTEM_OTHER_ODEX := true
 
@@ -188,4 +190,4 @@ TW_OVERRIDE_SYSTEM_PROPS := "ro.build.version.security_patch;ro.build.version.re
 TW_USE_TOOLBOX := true
 BOARD_VNDK_RUNTIME_DISABLE := true
 TW_INCLUDE_REPACKTOOLS := true
-TW_DELAY_TOUCH_INIT_MS := 1000
+TW_DELAY_TOUCH_INIT_MS := 3000

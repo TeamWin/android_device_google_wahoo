@@ -33,7 +33,6 @@ mount -t ext4 -o ro "$venpath" /v
 syspath="/dev/block/bootdevice/by-name/system$suffix"
 mkdir /s
 mount -t ext4 -o ro "$syspath" /s
-rm -f /system
 mkdir -p /system/etc/vintf
 cp /manifest.xml /system/etc/vintf/manifest.xml
 
@@ -72,7 +71,6 @@ mkdir /vendor
 mkdir -p /odm/lib64/hw
 mkdir -p odm/firmware/ese/prodkeys/
 mkdir -p odm/firmware/ese/testkeys/
-mkdir -p /system/etc
 cp /event-log-tags /system/etc/event-log-tags
 cp /s/system/etc/event-log-tags /system/etc/event-log-tags
 relink /v/bin/qseecomd
